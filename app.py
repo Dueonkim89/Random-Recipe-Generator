@@ -4,6 +4,7 @@ from utils import decode_to_string, get_countries_from_string
 
 app = Flask(__name__)
 cache = None
+spoonacular_api_key = "81bd5951a8ee44bc9d54fbb1858704b0"
 
 @app.route("/")
 def index():
@@ -20,6 +21,7 @@ def selection():
         r = requests.get(micro_service_url)
         data = decode_to_string(r.content)
         arr_of_countries = get_countries_from_string(data)
+        cache = arr_of_countries
         # render html based on number of countries in arr_of_countries
         return render_template('country_list.html', countries=arr_of_countries)
     else:
