@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
-<p class="intro-paragraph">List of random {{country}} recipes.</p>
+<h3 class="recipe-list-header">List of random recipes for {{country}}.</h3>
+<form action="/get_recipe" method="POST">
+    {% for recipe in recipes %}
+    <div class="form-check">
+        <input class="radio-input" type="radio" name="recipeRadios" id={{recipe['id']}} value={{recipe['id']}}>
+        <label class="form-check-label" for={{recipe['id']}}>
+            {{recipe['title']}}
+          </label>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-secondary">Continue</button>
+</form>
 
+<a href="./country_list" class="btn btn-secondary">Back</a> 
 
 {% endblock %}
