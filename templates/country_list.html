@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-<p class="intro-paragraph">List of randomly generated countries</p>
-<div class="list-group">
+<h3 class="intro-paragraph">List of randomly generated countries</h3>
+<form action="/recipes_for_country" method="POST">
     {% for country in countries %}
-    <li class="country list-group-item list-group-item-action">{{country}}</li>
+    <div class="form-check">
+      <input class="radio-input" type="radio" name="countryRadios" id={{country['id']}} value={{country['name']}}>
+      <label class="form-check-label" for={{country['id']}}>
+        {{country['name']}}
+      </label>
+    </div>
     {% endfor %}
-</div>
+    <button type="submit" class="btn btn-secondary">Continue</button>
+</form>
 <!--  <a href="./selection" class="btn btn-secondary">Back</a>  -->
 
 <!-- Button trigger modal -->
