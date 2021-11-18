@@ -4,7 +4,7 @@
 }
 
 .intro-paragraph {
-    font-size: 1.15rem;
+    font-size: 1.35rem;
 }
 
 /*
@@ -33,4 +33,12 @@
 .list-group {
     width: 20rem;
     margin: 2rem auto;
+}
+
+.form-check {
+    padding: .7rem;
+}
+
+.recipe-list-header {
+    font-size: 1.35rem;
 }
