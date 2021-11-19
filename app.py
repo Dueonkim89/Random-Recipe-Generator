@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
 import requests
-from utils import decode_to_string, get_countries_from_string
+from utils import decode_to_string, get_countries_from_string, get_name_and_image_of_recipe, get_recipe_ingredients, get_recipe_steps
 
 app = Flask(__name__)
 
@@ -13,9 +13,10 @@ cached_recipes = {}
 # api key
 spoonacular_api_key = "81bd5951a8ee44bc9d54fbb1858704b0"
 
+# hashmap of possible user choices to accepted API search queries
 country_search_word = {'France': 'French', 'Thailand': 'Thai', 'Italy': 'Italian', 
 'India': 'Indian', 'Spain': 'Spanish', "Greece": 'Greek', 'Mexico': 'Mexican', 
-'Turkey': 'Middle+Eastern', 'Argentina': 'Latin+American', 'Portugal': 'Mediterranean'}
+'Turkey': 'Middle+Eastern', 'Argentina': 'Latin+American', 'Portugal': 'Cajun'}
 
 @app.route("/")
 def index():
@@ -48,13 +49,14 @@ def country_list():
 def find_recipe():
     # POST route
     if request.method == "POST":
+        # get corresponding value in hash map and cache user choice into global variable
         country = country_search_word[request.form.get("countryRadios")]
         global chosen_country
-        chosen_country = country
+        chosen_country = request.form.get("countryRadios")
     
         # if in cache, pass info from cache into HTML template
-        if country in cached_recipe_list_per_country:
-            return render_template('country_recipes.html', country=request.form.get("countryRadios"), recipes=cached_recipe_list_per_country[country]['results'])
+        if chosen_country in cached_recipe_list_per_country:
+            return render_template('country_recipes.html', country=chosen_country, recipes=cached_recipe_list_per_country[chosen_country]['results'])
         else:
              # make request to spoonacular API and get all recipes
             base_url = "https://api.spoonacular.com/recipes/complexSearch?apiKey="
@@ -64,13 +66,43 @@ def find_recipe():
             response = requests.get(base_url)
 
             # store data into global cache, to avoid repetitive API calls
-            cached_recipe_list_per_country[country] = response.json()
+            cached_recipe_list_per_country[chosen_country] = response.json()
 
             # gather recipe data and redirect to country_recipes.html
-            return render_template('country_recipes.html', country=request.form.get("countryRadios"), recipes=cached_recipe_list_per_country[country]['results'])
-
-    # GET request, send recipe list from cached country
+            return render_template('country_recipes.html', country=chosen_country, recipes=cached_recipe_list_per_country[chosen_country]['results'])
+    # else, GET request. send recipe list from cached country
+    else:
+        return render_template('country_recipes.html', country=chosen_country, recipes=cached_recipe_list_per_country[chosen_country]['results'])
         
 
 # route to get specific recipe instruction
-        
+@app.route("/get_recipe", methods=["POST"])
+def get_recipe():
+    recipe_id = request.form.get("recipeRadios")
+
+    if recipe_id not in cached_recipes:
+        # make request to API
+        # https://api.spoonacular.com/recipes/715769/analyzedInstructions?apiKey=81bd5951a8ee44bc9d54fbb1858704b0
+        base_url = "https://api.spoonacular.com/recipes/"
+        base_url += recipe_id
+        base_url += "/analyzedInstructions?apiKey="
+        base_url += spoonacular_api_key
+        response = requests.get(base_url)
+
+        # store API data into cache
+        cached_recipes[recipe_id] = response.json()
+
+    # get image and name from cached data - cached_recipe_list_per_country
+    recipe_data = get_name_and_image_of_recipe(chosen_country, cached_recipe_list_per_country, recipe_id)
+    recipe_image = recipe_data['image']
+    recipe_name = recipe_data['title']
+  
+    # get array of ingredients from cached_recipes
+    ingredient_list = get_recipe_ingredients(recipe_id, cached_recipes)
+
+    # get array of steps from cached_recipes
+    steps_list = get_recipe_steps(recipe_id, cached_recipes)
+  
+    # render the template
+    return "hello world"
+
