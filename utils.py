@@ -20,3 +20,48 @@ def get_countries_from_string(string):
                 start = idx + 1
 
     return arr_of_countries
+
+def get_name_and_image_of_recipe(country, cached_country_recipes, recipe_id):
+    '''Retrieve image and name of recipe from cache'''
+
+    # get recipe list
+    recipe_list = cached_country_recipes[country]['results']
+
+    # loop thru recipe list
+    for idx in range(len(recipe_list)):
+        curr_recipe = recipe_list[idx]
+        if str(curr_recipe['id']) == recipe_id:
+            return {'image': curr_recipe['image'], 'title': curr_recipe['title']}
+
+
+def get_recipe_ingredients(id, recipe_list):
+    '''Get all ingredients for recipe in cache'''
+    ingredients_set = set()
+
+    # nested loop to get each ingredient
+    for idx in range(len(recipe_list[id][0]['steps'])):
+        curr_ingredients = recipe_list[id][0]['steps'][idx]['ingredients']
+        for j in range(len(curr_ingredients)):
+            ingredients_set.add(curr_ingredients[j]['name'])
+
+    # get data in set and convert into formatted data
+    list_of_ingredients = []
+    counter = 1
+
+    for ingredient in ingredients_set:
+        list_of_ingredients.append({"number": counter, "ingredient": ingredient})
+        counter += 1
+
+    return list_of_ingredients
+
+
+def get_recipe_steps(id, recipe_list):
+    '''Get recipe steps in cache'''
+    steps_of_recipe = []
+
+    # loop to get all the steps
+    for idx in range(len(recipe_list[id][0]['steps'])):
+        curr_step = recipe_list[id][0]['steps'][idx]['step']
+        steps_of_recipe.append({"number": idx + 1, "step": curr_step})
+
+    return steps_of_recipe
