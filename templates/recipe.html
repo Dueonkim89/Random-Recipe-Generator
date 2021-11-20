@@ -3,6 +3,7 @@
 <h3 class="recipe-list-header">Recipe for {{name}}</h3>
 <img src={{image_source}} class="recipe-image" alt="...">
 
+{% if ingredients and directions %}
 <div class="row">
      <!-- List of ingredients -->
     <div class="col">
@@ -23,6 +24,10 @@
         </ol>        
     </div>
 </div>
+<!-- Sometimes API has no data, send alternate HTML-->
+{% else %}
+<h3 class="ingredient-header">Unable to find ingredients and instructions for {{name}}. Please try another recipe!</h3>
+{% endif %}
 
 <!-- Button to go back to other recipes for selected country-->
 <a href="./recipes_for_country" class="btn btn-secondary">Back</a> 

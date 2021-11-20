@@ -38,6 +38,10 @@ def get_recipe_ingredients(id, recipe_list):
     '''Get all ingredients for recipe in cache'''
     ingredients_set = set()
 
+    # rare case of NO API data, return empty list
+    if not recipe_list[id]:
+        return []
+
     # nested loop to get each ingredient
     for idx in range(len(recipe_list[id][0]['steps'])):
         curr_ingredients = recipe_list[id][0]['steps'][idx]['ingredients']
@@ -58,6 +62,10 @@ def get_recipe_ingredients(id, recipe_list):
 def get_recipe_steps(id, recipe_list):
     '''Get recipe steps in cache'''
     steps_of_recipe = []
+
+    # rare case of NO API data, return empty list
+    if not recipe_list[id]:
+        return []
 
     # loop to get all the steps
     for idx in range(len(recipe_list[id][0]['steps'])):
