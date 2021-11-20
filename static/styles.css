@@ -42,3 +42,21 @@
 .recipe-list-header {
     font-size: 1.35rem;
 }
+
+.recipe-image {
+    margin: 1.8rem auto;
+    display: block;
+}
+
+.list-group-item {
+    border: none;
+}
+
+.list-group.list-group-numbered {
+    margin-top: .75rem;
+    margin-bottom: .75rem;
+}
+
+.direction-header {
+    margin-top: 1.1rem;
+}
