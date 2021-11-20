@@ -104,5 +104,5 @@ def get_recipe():
     steps_list = get_recipe_steps(recipe_id, cached_recipes)
   
     # render the template
-    return "hello world"
+    return render_template('recipe.html', name=recipe_name, image_source=recipe_image, ingredients=ingredient_list, directions=steps_list)
 

@@ -26,3 +26,8 @@ function makeRequestForCountryRecipe(country) {
 }
 
 
+// disable continue button once user makes choice.
+
+
+// give warning if form field has null value
+
