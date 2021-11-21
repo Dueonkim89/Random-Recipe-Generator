@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h3 class="intro-paragraph">List of randomly generated countries</h3>
-<form action="/recipes_for_country" method="POST">
+<form action="/recipes_for_country" method="POST" class="country-list-form">
     {% for country in countries %}
     <div class="form-check">
       <input class="radio-input" type="radio" name="countryRadios" id={{country['id']}} value={{country['name']}}>
@@ -10,7 +10,7 @@
       </label>
     </div>
     {% endfor %}
-    <button type="submit" class="btn btn-secondary">Continue</button>
+    <button type="submit" class="btn btn-secondary submit">Continue</button>
 </form>
 <!--  <a href="./selection" class="btn btn-secondary">Back</a>  -->
 

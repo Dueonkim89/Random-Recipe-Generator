@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<form action="/selection" method="POST">
+<form action="/selection" method="POST" class="country-submit-form">
     <h3 class="intro-paragraph">How many random countries do you want?</h3>
     <select name="select_number_of_countries" class="form-select" aria-label="Default select example">
-        <option selected>Pick number of countries</option>
+        <option value="0" selected>Pick number of countries</option>
         <option value="1">One</option>
         <option value="3">Three</option>
         <option value="5">Five</option>
