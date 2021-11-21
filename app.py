@@ -63,6 +63,7 @@ def find_recipe():
             base_url += spoonacular_api_key
             base_url += '&cuisine='
             base_url += country
+            base_url += '&number=100'
             response = requests.get(base_url)
 
             # store data into global cache, to avoid repetitive API calls
