@@ -1,7 +1,26 @@
+from random import randrange
+
 def decode_to_string(bytes):
     '''convert bytes into string'''
     return bytes.decode("utf-8")
 
+def get_random_countries(number_of_countries):
+    '''USE this alternative method since teammate shut down her microservice'''
+    random_country_set = set()
+    list_of_random_countries = []
+    list_of_countries = ['France', 'Thailand', 'Italy', 'India', 'Spain', "Greece", 'Mexico', 
+    'Turkey', 'Argentina', 'Portugal']
+
+    for idx in range(number_of_countries):
+        # keep looping until random country not in set is picked
+        random_country = list_of_countries[randrange(10)]
+        while random_country in random_country_set:
+            random_country = list_of_countries[randrange(10)]
+        random_country_set.add(random_country)
+        list_of_random_countries.append({'name': random_country, 'id': "country" + str(idx + 1)})
+
+    return list_of_random_countries
+    
 def get_countries_from_string(string):
     '''extract the countries from the string'''
     arr_of_countries = []

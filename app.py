@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
 import requests
-from utils import decode_to_string, get_countries_from_string, get_name_and_image_of_recipe, get_recipe_ingredients, get_recipe_steps
+from utils import get_random_countries, get_name_and_image_of_recipe, get_recipe_ingredients, get_recipe_steps
 
 app = Flask(__name__)
 
@@ -26,6 +26,9 @@ def index():
 def selection():
     if request.method == "POST":
         number = request.form.get("select_number_of_countries")
+        '''
+        ************* UPDATE: Teammate shut down her microservice.
+        *************
         # make request to microservice, requires a parameter of numbers at the end
         # https://stackoverflow.com/questions/15463004/how-can-i-send-a-get-request-from-my-flask-app-to-another-site
         micro_service_url = 'https://malliuxservice.herokuapp.com/countries/'
@@ -34,6 +37,9 @@ def selection():
         data = decode_to_string(r.content)
         global cached_countries
         cached_countries = get_countries_from_string(data)
+        '''
+        global cached_countries
+        cached_countries = get_random_countries(int(number))
         # render html based on number of countries in arr_of_countries
         return render_template('country_list.html', countries=cached_countries)
     else:
